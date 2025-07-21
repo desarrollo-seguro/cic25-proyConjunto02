@@ -39,4 +39,8 @@ public class PersonaService {
         LOGGER.info(String.format("Actualizando la perosna con id %d",persona.getId()));
         return personaRepository.save(persona);
     }
+
+    public void delete(Long id){
+        personaRepository.deleteById(id);
+    }
 }
