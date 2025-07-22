@@ -1,4 +1,4 @@
-package es.cic.curso25.cic25_proyConjunto02;
+package es.cic.curso25.cic25_proyConjunto02.controller;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +16,12 @@ import com.fasterxml.jackson.core.type.TypeReference;
 
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.List;
@@ -82,13 +83,54 @@ public class PersonaControllerIntegrationTest {
         
     @Test
     void testModificar() throws Exception {
-        
-
-
+        //creamos un objeto de tipo persona
+        Persona persona = new Persona();
+        persona.setDni("12345678a");
+        persona.setNombre("Jose Javier");
+        persona.setApellidos("Martínez Samperio");
+        persona.setEdad(30);
+        //convertimos el objeto de tipo persona en json con ObjectMapper
+        String personaJson = objectMapper.writeValueAsString(persona);
+        //simulamos la llamada HTTP y recogemos el id generado
+        MvcResult mvcResult = mockMvc.perform(post("/persona")
+            .contentType("application/json")
+            .content(personaJson))
+            .andExpect(status().isOk())
+            .andReturn();
+        Long idGenerado = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Persona.class).getId();
+        //Le pasamos el objeto con los datos modificados y utilizando el id para el método de actualizar
+        persona.setId(idGenerado);
+        persona.setNombre("NoMeLLamoJoseJavier");
+        //volvemos a generar el String
+        personaJson = objectMapper.writeValueAsString(persona);
+        mockMvc.perform(put("/persona")
+            .contentType("application/json")
+            .content(personaJson))
+            .andExpect(status().isOk());
+        //comprobamos que el registro con el idGenerado tiene el mismo nombre que la modificacion que hemos hecho
+        mockMvc.perform(get("/persona/" + idGenerado))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.id").value(idGenerado)) 
+            .andExpect(jsonPath("$.nombre").value("NoMeLLamoJoseJavier"));
     }
 
     @Test 
-    void testModificarConExcepcion() {
+    void testModificarConExcepcion() throws Exception {
+        //creamos la persona sin id para pasarla en la peticion HTTP
+        //no hace falta hacer el post porque no va a llegar a hacer luego la petición del put
+        Persona persona = new Persona();
+        persona.setDni("12345678a");
+        persona.setNombre("Jose Javier");
+        persona.setApellidos("Martínez Samperio");
+        persona.setEdad(30);
+
+        //convertimos el objeto de tipo persona en json con ObjectMapper
+        String personaJson = objectMapper.writeValueAsString(persona);
+        //hacemos la petición que debería devolevr un badRequest
+        mockMvc.perform(put("/persona")
+            .contentType("application/json")
+            .content(personaJson))
+            .andExpect(status().isBadRequest());
 
     }
 
