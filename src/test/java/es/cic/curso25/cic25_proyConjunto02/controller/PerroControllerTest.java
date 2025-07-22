@@ -32,9 +32,6 @@ public class PerroControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @Autowired
-    private PerroController perroController;
-
     @Test
     void testCreate() throws Exception {
 
@@ -197,4 +194,22 @@ public class PerroControllerTest {
                 .andExpect(status().isOk());
 
     }
+
+    @Test
+    void testUpdateException() throws Exception {
+
+        Perro perroTest = new Perro();
+        perroTest.setNombre("Firulais");
+        perroTest.setPeso(10);
+        perroTest.setRaza("Galgo");
+
+        String perroJson = objectMapper.writeValueAsString(perroTest);
+
+        mockMvc.perform(put("/perro")
+                .contentType("application/json")
+                .content(perroJson))
+                .andExpect(status().isBadRequest());
+
+    }
+
 }

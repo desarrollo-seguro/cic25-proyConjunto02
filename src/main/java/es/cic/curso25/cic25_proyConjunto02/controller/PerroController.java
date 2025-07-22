@@ -61,6 +61,10 @@ public class PerroController {
     public void update(@RequestBody Perro perro) {
         LOGGER.info("Actualizo un perro");
 
+        if (perro.getId() == null) {
+            throw new CreacionSecurityException();
+        }
+
         perroService.update(perro);
     }
 
