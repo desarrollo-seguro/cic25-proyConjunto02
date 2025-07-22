@@ -13,7 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import es.cic.curso25.cic25_proyConjunto02.model.Perro;
 
 @SpringBootTest
-public class PerroServiceTest {
+public class PerroServiceIntegrationTest {
 
     @Autowired
     private PerroService perroService;

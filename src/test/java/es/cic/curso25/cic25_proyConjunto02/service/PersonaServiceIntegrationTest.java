@@ -68,7 +68,7 @@ public class PersonaServiceIntegrationTest {
     }
 
     @Test
-    void testGet2() {
+    void testGetLista() {
         //creamos dos objetos de tipo persona
         Persona persona = new Persona();
         persona.setDni("12345678a");

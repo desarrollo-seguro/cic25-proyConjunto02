@@ -9,7 +9,6 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import es.cic.curso25.cic25_proyConjunto02.controller.PersonaController;
 import es.cic.curso25.cic25_proyConjunto02.model.Persona;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -35,12 +34,9 @@ public class PersonaControllerIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
-
-    @Autowired
-    private PersonaController personaController;
     
     @Test
-    void testCreatePersona() throws Exception {
+    void testCreate() throws Exception {
         //creamos un objeto de tipo persona
         Persona persona = new Persona();
         persona.setDni("12345678a");
@@ -63,7 +59,7 @@ public class PersonaControllerIntegrationTest {
     }
 
     @Test
-    void testCreatePersonaConExcepcion() throws Exception {
+    void testCreateException() throws Exception {
         //creamos un objeto de tipo persona con id para que salte la excepción personalizada
         Persona persona = new Persona();
         persona.setId(3L);
@@ -82,7 +78,7 @@ public class PersonaControllerIntegrationTest {
     } 
         
     @Test
-    void testModificar() throws Exception {
+    void testUpdate() throws Exception {
         //creamos un objeto de tipo persona
         Persona persona = new Persona();
         persona.setDni("12345678a");
@@ -115,7 +111,7 @@ public class PersonaControllerIntegrationTest {
     }
 
     @Test 
-    void testModificarConExcepcion() throws Exception {
+    void testUpdateException() throws Exception {
         //creamos la persona sin id para pasarla en la peticion HTTP
         //no hace falta hacer el post porque no va a llegar a hacer luego la petición del put
         Persona persona = new Persona();
@@ -135,7 +131,7 @@ public class PersonaControllerIntegrationTest {
     }
 
     @Test
-    void testBuscarPorId() throws Exception{
+    void testGet() throws Exception{
         //primero creamos la persona
         Persona persona = new Persona();
         persona.setDni("87654321b");
@@ -161,7 +157,7 @@ public class PersonaControllerIntegrationTest {
     }
 
     @Test
-    void testBuscarTodas() throws Exception{
+    void testGetLista() throws Exception{
         //creamos los objetos de tipo persona y los introducimos en la base de datos mediante el endpoint de crear
         Persona persona1 = new Persona();
         persona1.setDni("18273645b");
@@ -211,7 +207,7 @@ public class PersonaControllerIntegrationTest {
     }
 
     @Test
-    void testEliminarUna() throws Exception {
+    void testDelete() throws Exception {
         //creamos una persona
         Persona persona1 = new Persona();
         persona1.setDni("18273645b");

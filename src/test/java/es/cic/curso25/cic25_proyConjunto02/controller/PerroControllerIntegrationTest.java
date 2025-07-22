@@ -24,7 +24,7 @@ import es.cic.curso25.cic25_proyConjunto02.model.Perro;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class PerroControllerTest {
+public class PerroControllerIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
