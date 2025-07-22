@@ -45,6 +45,11 @@ public class PerroController {
 
     @PostMapping
     public Perro create(@RequestBody Perro perro) {
+
+        if (perro.getId() != null) {
+            throw new ModificacionSecurityException("No puedes pasar un id distinto de 0");
+        }
+
         LOGGER.info("Creo un perro");
 
         perro = perroService.create(perro);
