@@ -21,6 +21,7 @@ public class PerroService {
     @Autowired
     private PerroRepository perroRepository;
 
+    @Transactional(readOnly = true)
     public Optional<Perro> get(Long id) {
         LOGGER.info("Leo el perro con id " + id);
 
@@ -29,6 +30,7 @@ public class PerroService {
         return perro;
     }
 
+    @Transactional(readOnly = true)
     public List<Perro> get() {
         LOGGER.info("Leo todos los perros");
 
@@ -37,10 +39,6 @@ public class PerroService {
 
     public Perro create(Perro perro) {
         LOGGER.info("Creo un perro");
-
-        if (true)
-            throw new RuntimeException();
-
 
         perroRepository.save(perro);
 

@@ -29,9 +29,6 @@ public class PersonaController {
     @Autowired
     private PersonaService personaService;
 
-    @Autowired
-    private PerroService perroService;
-
 
     @GetMapping("/{id}")
     public Optional<Persona> get(@PathVariable Long id) {
@@ -56,14 +53,9 @@ public class PersonaController {
 
     @PostMapping("/amistad")
     public Amistad create(@RequestBody Amistad amistad){
-        Persona personaCreada = personaService.create(amistad.getPersona());
-        Perro perroCreado = perroService.create(amistad.getPerro());
+        Amistad amistadCreada = personaService.create(amistad);
 
-        Amistad resultado = new Amistad();
-        resultado.setPersona(personaCreada);
-        resultado.setPerro(perroCreado);
-
-        return resultado;
+        return amistadCreada;
     }
 
 
