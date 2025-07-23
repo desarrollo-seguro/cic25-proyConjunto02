@@ -21,7 +21,6 @@ import es.cic.curso25.cic25_proyConjunto02.service.PerroService;
 @RestController
 @RequestMapping("/perro")
 public class PerroController {
-
     private static final Logger LOGGER = LoggerFactory.getLogger(PerroController.class);
 
     @Autowired

@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import es.cic.curso25.cic25_proyConjunto02.model.Perro;
 import es.cic.curso25.cic25_proyConjunto02.model.Persona;
+import es.cic.curso25.cic25_proyConjunto02.service.PerroService;
 import es.cic.curso25.cic25_proyConjunto02.service.PersonaService;
 
 @RestController
@@ -26,6 +28,10 @@ public class PersonaController {
 
     @Autowired
     private PersonaService personaService;
+
+    @Autowired
+    private PerroService perroService;
+
 
     @GetMapping("/{id}")
     public Optional<Persona> get(@PathVariable Long id) {
@@ -48,6 +54,19 @@ public class PersonaController {
         return personaService.create(persona);
     }
 
+    @PostMapping("/amistad")
+    public Amistad create(@RequestBody Amistad amistad){
+        Persona personaCreada = personaService.create(amistad.getPersona());
+        Perro perroCreado = perroService.create(amistad.getPerro());
+
+        Amistad resultado = new Amistad();
+        resultado.setPersona(personaCreada);
+        resultado.setPerro(perroCreado);
+
+        return resultado;
+    }
+
+
     @PutMapping
     public Persona update(@RequestBody Persona persona){
         return persona;
@@ -62,4 +81,27 @@ public class PersonaController {
     public void delete(@PathVariable Long id){
         personaService.delete(id);
     }
+    public static class Amistad {
+        private Persona persona;
+        private Perro perro;
+
+
+
+        public Persona getPersona() {
+            return persona;
+        }
+        public void setPersona(Persona persona) {
+            this.persona = persona;
+        }
+        public Perro getPerro() {
+            return perro;
+        }
+        public void setPerro(Perro perro) {
+            this.perro = perro;
+        }
+
+        
+    }
+
 }
+

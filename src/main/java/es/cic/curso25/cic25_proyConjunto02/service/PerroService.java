@@ -7,11 +7,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import es.cic.curso25.cic25_proyConjunto02.model.Perro;
 import es.cic.curso25.cic25_proyConjunto02.repository.PerroRepository;
 
 @Service
+@Transactional
 public class PerroService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PerroService.class);
@@ -35,6 +37,10 @@ public class PerroService {
 
     public Perro create(Perro perro) {
         LOGGER.info("Creo un perro");
+
+        if (true)
+            throw new RuntimeException();
+
 
         perroRepository.save(perro);
 
