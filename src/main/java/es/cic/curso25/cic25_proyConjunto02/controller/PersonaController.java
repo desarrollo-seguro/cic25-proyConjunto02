@@ -50,11 +50,12 @@ public class PersonaController {
 
     @PutMapping
     public Persona update(@RequestBody Persona persona){
-        LOGGER.info(String.format("Actualizando la perosna con id %d",persona.getId()));
-        if(persona.getId() == null) {
-            throw new CreacionSecurityException("Intendo de creación en la modificación");
-        }
-        return personaService.update(persona);
+        return persona;
+        // LOGGER.info(String.format("Actualizando la perosna con id %d",persona.getId()));
+        // if(persona.getId() == null) {
+        //     throw new CreacionSecurityException("Intendo de creación en la modificación");
+        // }
+        // return personaService.update(persona);
     }
 
     @DeleteMapping("/{id}")

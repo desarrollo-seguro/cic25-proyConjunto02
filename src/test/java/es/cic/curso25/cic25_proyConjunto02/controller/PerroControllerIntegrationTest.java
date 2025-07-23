@@ -2,6 +2,8 @@ package es.cic.curso25.cic25_proyConjunto02.controller;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -113,6 +115,7 @@ public class PerroControllerIntegrationTest {
         Long id = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Perro.class).getId();
 
         mockMvc.perform(get("/perro/" + id))
+                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(result -> {
                     assertEquals(objectMapper.readValue(result.getResponse().getContentAsString(), Perro.class).getId(),
