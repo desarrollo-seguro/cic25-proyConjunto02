@@ -1,10 +1,13 @@
 package es.cic.curso25.cic25_proyConjunto02.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 
 @Entity(name = "PERSONA")
 public class Persona {
@@ -23,7 +26,10 @@ public class Persona {
     @Column(name = "domicilio")
     private String domicilio;
 
-    
+    @JsonIgnore
+    @OneToOne(mappedBy = "persona")
+    private Perro perro;
+
 
     public Persona() {
     }
@@ -73,6 +79,15 @@ public class Persona {
     public void setDomicilio(String domicilio) {
         this.domicilio = domicilio;
     }
+
+    public Perro getPerro() {
+        return perro;
+    }
+
+    public void setPerro(Perro perro) {
+        this.perro = perro;
+    }
+
 
     @Override
     public int hashCode() {

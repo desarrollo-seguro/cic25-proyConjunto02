@@ -27,6 +27,9 @@ public class PersonaController {
      private static final Logger LOGGER = LoggerFactory.getLogger(PersonaController.class);
 
     @Autowired
+    private PerroService perroService;
+
+    @Autowired
     private PersonaService personaService;
 
 
@@ -52,10 +55,10 @@ public class PersonaController {
     }
 
     @PostMapping("/amistad")
-    public Amistad create(@RequestBody Amistad amistad){
-        Amistad amistadCreada = personaService.create(amistad);
+    public Perro create(@RequestBody Perro perro){
+        Perro perroCreado = perroService.create(perro);
 
-        return amistadCreada;
+        return perroCreado;
     }
 
 
@@ -73,27 +76,5 @@ public class PersonaController {
     public void delete(@PathVariable Long id){
         personaService.delete(id);
     }
-    public static class Amistad {
-        private Persona persona;
-        private Perro perro;
-
-
-
-        public Persona getPersona() {
-            return persona;
-        }
-        public void setPersona(Persona persona) {
-            this.persona = persona;
-        }
-        public Perro getPerro() {
-            return perro;
-        }
-        public void setPerro(Perro perro) {
-            this.perro = perro;
-        }
-
-        
-    }
-
 }
 

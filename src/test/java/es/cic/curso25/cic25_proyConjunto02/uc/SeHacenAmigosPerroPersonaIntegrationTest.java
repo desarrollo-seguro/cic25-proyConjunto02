@@ -24,7 +24,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import es.cic.curso25.cic25_proyConjunto02.controller.PersonaController;
-import es.cic.curso25.cic25_proyConjunto02.controller.PersonaController.Amistad;
 import es.cic.curso25.cic25_proyConjunto02.model.Perro;
 import es.cic.curso25.cic25_proyConjunto02.model.Persona;
 
@@ -51,29 +50,30 @@ public class SeHacenAmigosPerroPersonaIntegrationTest {
         persona.setApellidos("Martínez Samperio");
         persona.setEdad(30);
 
+
         Perro perroTest = new Perro();
         perroTest.setNombre("Firulais");
         perroTest.setPeso(10);
         perroTest.setRaza("Galgo");
 
-        Amistad amistadACrear = new Amistad();
-        amistadACrear.setPersona(persona);
-        amistadACrear.setPerro(perroTest);
+        perroTest.setPersona(persona);
+        persona.setPerro(perroTest);
+
 
         //convertimos el objeto de tipo amistad en json con ObjectMapper
-        String amistadACrearJson = objectMapper.writeValueAsString(amistadACrear);
+        String perroACrearJson = objectMapper.writeValueAsString(perroTest);
         
         
         //con MockMvc simulamos la peticion HTTP para crear una persona
         mockMvc.perform(post("/persona/amistad")
         .contentType("application/json")
-        .content(amistadACrearJson))
+        .content(perroACrearJson))
         .andExpect(status().isOk())
         .andExpect( personaResult ->{
             assertNotNull(
                 objectMapper.readValue(
-                    personaResult.getResponse().getContentAsString(), Amistad.class), 
-                "La amistad ha vuelto");
+                    personaResult.getResponse().getContentAsString(), Perro.class), 
+                "Le tiré el palo y el perro ha vuelto");
             });
 
     }

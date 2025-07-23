@@ -1,9 +1,12 @@
 package es.cic.curso25.cic25_proyConjunto02.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Perro {
@@ -15,6 +18,11 @@ public class Perro {
     private String nombre;
     private String raza;
     private double peso;
+
+    @OneToOne(cascade = CascadeType.PERSIST)
+    private Persona persona;
+
+
 
     public Long getId() {
         return id;
@@ -46,6 +54,14 @@ public class Perro {
 
     public void setPeso(double peso) {
         this.peso = peso;
+    }
+
+    public Persona getPersona() {
+        return persona;
+    }
+
+    public void setPersona(Persona persona) {
+        this.persona = persona;
     }
 
     @Override
