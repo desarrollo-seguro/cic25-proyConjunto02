@@ -2,6 +2,7 @@ package es.cic.curso25.cic25_proyConjunto02.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,7 +28,7 @@ public class Persona {
     private String domicilio;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "persona")
+    @OneToOne(mappedBy = "persona", cascade = CascadeType.REMOVE)
     private Perro perro;
 
 

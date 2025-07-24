@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import es.cic.curso25.cic25_proyConjunto02.configuracion.MiClaseCompleja;
 import es.cic.curso25.cic25_proyConjunto02.model.Perro;
 import es.cic.curso25.cic25_proyConjunto02.model.Persona;
 import es.cic.curso25.cic25_proyConjunto02.repository.PerroRepository;
@@ -22,6 +23,10 @@ public class PersonaService {
 
     @Autowired
     private PersonaRepository personaRepository;
+
+
+    @Autowired
+    private MiClaseCompleja miClaseCompleja;
 
     public Optional<Persona> get(Long id) {
         LOGGER.info(String.format("Buscando la persona con id %d", id));

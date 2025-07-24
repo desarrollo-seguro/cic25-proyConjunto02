@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -57,7 +58,7 @@ public class SeHacenAmigosPerroPersonaIntegrationTest {
         perroTest.setRaza("Galgo");
 
         perroTest.setPersona(persona);
-        persona.setPerro(perroTest);
+        // persona.setPerro(perroTest);
 
 
         //convertimos el objeto de tipo amistad en json con ObjectMapper
@@ -65,7 +66,7 @@ public class SeHacenAmigosPerroPersonaIntegrationTest {
         
         
         //con MockMvc simulamos la peticion HTTP para crear una persona
-        mockMvc.perform(post("/persona/amistad")
+        MvcResult mvcResult = mockMvc.perform(post("/persona/amistad")
         .contentType("application/json")
         .content(perroACrearJson))
         .andExpect(status().isOk())
@@ -74,7 +75,39 @@ public class SeHacenAmigosPerroPersonaIntegrationTest {
                 objectMapper.readValue(
                     personaResult.getResponse().getContentAsString(), Perro.class), 
                 "Le tiré el palo y el perro ha vuelto");
-            });
+            })
+        .andReturn();
 
+
+        Perro perroCreado = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Perro.class);
+        Long id = perroCreado.getId();
+
+        mockMvc.perform(get("/perro/" + id))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(result -> {
+                    assertEquals(objectMapper.readValue(result.getResponse().getContentAsString(), Perro.class).getId(),
+                            id);
+                });   
+         
+                
+        perroCreado.getPersona().setApellidos("Otros");
+
+
+        String perroJson = objectMapper.writeValueAsString(perroCreado);
+
+        mockMvc.perform(put("/perro")
+                .contentType("application/json")
+                .content(perroJson))
+                .andDo(print())                
+                .andExpect(status().isOk());
+
+
+
+
+
+        mockMvc.perform(delete("/perro/" + id))
+                .andDo(print())        
+                .andExpect(status().isOk());                
     }
 }

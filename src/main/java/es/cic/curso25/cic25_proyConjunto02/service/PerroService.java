@@ -11,12 +11,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import es.cic.curso25.cic25_proyConjunto02.model.Perro;
 import es.cic.curso25.cic25_proyConjunto02.repository.PerroRepository;
+import es.cic.curso25.cic25_proyConjunto02.repository.PersonaRepository;
 
 @Service
 @Transactional
 public class PerroService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PerroService.class);
+
+    @Autowired
+    private PersonaRepository personaRepository;
 
     @Autowired
     private PerroRepository perroRepository;
@@ -54,8 +58,22 @@ public class PerroService {
 
     public void delete(Long id) {
         LOGGER.info("Borro un perro");
+        Optional<Perro> perro = perroRepository.findById(id);
+
+        // if (hasPersona(perro)) {
+        //     personaRepository.delete(perro.get().getPersona());           
+        // }
+
 
         perroRepository.deleteById(id);
+
     }
 
+    private boolean hasPersona(Optional<Perro> perro) {
+        boolean resultado = false;
+        if (perro.isPresent()) {
+            resultado =  perro.get().getPersona() != null;
+        } 
+        return resultado;
+    }
 }
